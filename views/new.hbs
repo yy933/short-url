@@ -1,0 +1,20 @@
+<div class="container">
+  {{!-- main contents --}}
+<div class="d-flex flex-column">
+  <div class="container col-sm-6 my-4">
+    <form class="d-flex">
+      <div class="col-sm-2 d-flex align-items-center"><h5>Original url:</h5></div>
+      <input class="form-control me-2" type="url" placeholder="http://..." id="url-input" aria-label="shortUrl-input">
+      <button class="btn btn-danger" type="submit" onclick="shorturl()">Shorten</button>
+    </form>
+  </div>
+  <div class="container col-sm-6 my-4">
+    <form class="d-flex">
+      <div class="col-sm-2 d-flex align-items-center"><h5>Short url:</h5></div>
+      <input class="form-control me-2" type="url" id="url-output" aria-label="shortUrl-output" value="Default" readonly> 
+    </form>
+  </div>
+</div>
+{{!-- button --}}
+<div class="d-flex justify-content-center"><a href="/"><button class="btn btn-primary" id="go-back">Back to Home</button></a></div>
+</div>

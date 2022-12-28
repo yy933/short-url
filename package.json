@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "standard && node my-tests.js",
     "seed": " node models/seeds/urlSeeder.js"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "mongoose": "^6.8.1"
   },
   "devDependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "standard": "*"
   }
 }
