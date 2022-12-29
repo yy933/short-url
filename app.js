@@ -25,16 +25,15 @@ db.once('open', () => {
 
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   res.render('index')
 })
-app.get('/new', (req, res)=>{
+app.get('/new', (req, res) => {
   res.render('new')
 })
-
 
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
