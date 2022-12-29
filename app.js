@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 const { idToShortUrl, shortUrlToId } = require('./generateShortUrl.js')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -23,11 +25,15 @@ db.once('open', () => {
 
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   res.render('index')
 })
-
+app.get('/new', (req, res)=>{
+  res.render('new')
+})
 
 
 app.listen(port, () => {
