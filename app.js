@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const { idToShortUrl, shortUrlToId } = require('./generateShortUrl.js')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -24,8 +25,10 @@ app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.get('/', (req, res) => {
-  res.render('new')
+  res.render('index')
 })
+
+
 
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
