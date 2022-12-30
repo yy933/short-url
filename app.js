@@ -4,7 +4,6 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const shortenUrl = require('./models/shortenUrls')
 const idToShortUrl = require('./generateShortUrl.js')
-const shortenUrls = require('./models/shortenUrls')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -42,8 +41,8 @@ app.post('/', (req, res) => {
     .find()
     .lean()
     .then((data) => {
+      // check if the input url already exists in database
       newUrl = data.find((item) => item.originalUrl === contentUrl)
-      // if the input url already exists in database
       if (newUrl) {
         newUrl = hostUrl + newUrl.shortUrl
         return res.render('show', { newUrl, contentUrl })
@@ -61,7 +60,10 @@ app.post('/', (req, res) => {
       })
     })
     .then(() => res.render('show', { newUrl, contentUrl }))
-    .catch((error) => console.log(error))
+    .catch((error) => {
+      console.log(error)
+      res.render('error', { error_message: error.message })
+    })
 })
 
 // make short url work in the browser
@@ -75,7 +77,10 @@ app.get('/:shortString', (req, res) => {
         res.redirect(data.originalUrl)
       }
     })
-    .catch((error) => console.log(error))
+    .catch((error) => {
+      console.log(error)
+      res.render('error', { error_message: error.message })
+    })
 })
 
 app.listen(port, () => {
