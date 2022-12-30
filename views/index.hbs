@@ -1,7 +1,7 @@
 <div class="container col-sm-6 my-4">
   <div class="d-flex justify-content-center my-4"><img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png" alt="short-url" style="height:30%;width:30%;"></div>
-  <form class="d-flex" action="/new">
-    <input class="form-control me-2" type="url" placeholder="http://..." id="url-input" aria-label="shortUrl"> 
+  <form class="d-flex"  method="POST" action="/">
+    <input class="form-control me-2" type="url" placeholder="http://..." id="url-input" name="originalUrl" aria-label="shortUrl"> 
     <button class="btn btn-info" type="submit">Shorten</button>
   </form>
   </div>

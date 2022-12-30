@@ -1,9 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
-const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
-const { idToShortUrl, shortUrlToId } = require('./generateShortUrl.js')
+const shortenUrl = require('./models/shortenUrls')
+const idToShortUrl = require('./generateShortUrl.js')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -25,14 +25,42 @@ db.once('open', () => {
 
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   res.render('index')
 })
-app.get('/new', (req, res) => {
-  res.render('new')
+
+// convert to short url and save data
+const hostUrl = `http://localhost:${port}/`
+app.post('/', (req, res) => {
+  const contentUrl = req.body.originalUrl
+  let newUrl
+  shortenUrl
+    .find()
+    .lean()
+    .then((data) => {
+      newUrl = data.find((item) => item.originalUrl === contentUrl);
+      // if the input url already exists in database
+      if (newUrl) {
+        newUrl = hostUrl + newUrl.shortUrl;
+        return res.render('show', { newUrl, contentUrl });
+      }
+      // if short string already existed, regenerate a random short string
+      let shortString = idToShortUrl();
+      if (data.some((item) => item.shortUrl === shortString)) {
+        shortString = idToShortUrl();
+      }
+      newUrl = hostUrl + shortString;
+      // create new data
+      shortenUrl.create({
+        originalUrl: contentUrl,
+        shortUrl: shortString
+      });
+    })
+    .then(() => res.render('show', { newUrl, contentUrl }))
+    .catch((error) => console.log(error))
 })
 
 app.listen(port, () => {

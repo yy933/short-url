@@ -4,7 +4,7 @@ function randomString (array) {
   return array[index]
 }
 // function: convert id to short url
-function idToShortUrl (id) {
+function idToShortUrl () {
   const lowerCaseLetters = 'abcdefghijklmnopqrstuvwxyz'
   const upperCaseLetters = lowerCaseLetters.toUpperCase()
   const numbers = '1234567890'
@@ -14,14 +14,7 @@ function idToShortUrl (id) {
   for (let i = 0; i < 5; i++) {
     shortUrl += randomString(collection)
   }
-  return console.log(id, shortUrl)
+  return shortUrl
 }
 
-function shortUrlToId (shortUrl) {
-
-}
-
-module.exports = {
-  idToShortUrl: function idToShortUrl () {},
-  shortUrlToId: function shortUrlToId () {}
-}
+module.exports = idToShortUrl
