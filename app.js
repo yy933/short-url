@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const shortenUrl = require('./models/shortenUrls')
 const idToShortUrl = require('./generateShortUrl.js')
+const shortenUrls = require('./models/shortenUrls')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -41,25 +42,39 @@ app.post('/', (req, res) => {
     .find()
     .lean()
     .then((data) => {
-      newUrl = data.find((item) => item.originalUrl === contentUrl);
+      newUrl = data.find((item) => item.originalUrl === contentUrl)
       // if the input url already exists in database
       if (newUrl) {
-        newUrl = hostUrl + newUrl.shortUrl;
-        return res.render('show', { newUrl, contentUrl });
+        newUrl = hostUrl + newUrl.shortUrl
+        return res.render('show', { newUrl, contentUrl })
       }
       // if short string already existed, regenerate a random short string
-      let shortString = idToShortUrl();
+      let shortString = idToShortUrl()
       if (data.some((item) => item.shortUrl === shortString)) {
-        shortString = idToShortUrl();
+        shortString = idToShortUrl()
       }
-      newUrl = hostUrl + shortString;
+      newUrl = hostUrl + shortString
       // create new data
       shortenUrl.create({
         originalUrl: contentUrl,
         shortUrl: shortString
-      });
+      })
     })
     .then(() => res.render('show', { newUrl, contentUrl }))
+    .catch((error) => console.log(error))
+})
+
+// make short url work in the browser
+app.get('/:shortString', (req, res) => {
+  const shortString = req.params.shortString
+  shortenUrl
+    .findOne({ shortUrl: shortString })
+    .lean()
+    .then((data) => {
+      if (data) {
+        res.redirect(data.originalUrl)
+      }
+    })
     .catch((error) => console.log(error))
 })
 
