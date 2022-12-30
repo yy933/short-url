@@ -1,5 +1,15 @@
 const mongoose = require('mongoose')
 const shortenUrl = require('../shortenUrls')
+const data = [
+  {
+    originalUrl: "https://stackoverflow.com/",
+    shortUrl: "5Ghj7",
+  },
+  {
+    originalUrl: "https://www.w3schools.com/",
+    shortUrl: "rY9i4",
+  },
+];
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -19,8 +29,6 @@ db.once('open', () => {
 
 db.once('open', () => {
   console.log('mongodb connected!')
-  for (let i = 0; i < 10; i++) {
-    shortenUrl.create({ name: `name-${i}` })
-  }
+  shortenUrl.create(data)
   console.log('done')
 })
