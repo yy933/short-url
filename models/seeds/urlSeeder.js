@@ -14,5 +14,5 @@ const data = [
 db.once('open', () => {
   console.log('mongodb connected!')
   shortenUrl.create(data)
-  console.log('done')
+  console.log('Seeder done')
 })
