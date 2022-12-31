@@ -4,6 +4,11 @@
     <input class="form-control me-2" type="url" placeholder="http://..." id="url-input" name="originalUrl" aria-label="shortUrl" required>  
     <button class="btn btn-info" type="submit">Shorten</button>
   </form>
+  {{#if invalidUrl}}
+<div class="alert alert-warning mt-3" role="alert">
+  {{contentUrl}} is not a valid url.
+</div>
+  {{/if}}
   </div>
 
 

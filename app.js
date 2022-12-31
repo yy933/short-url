@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const shortenUrl = require('./models/shortenUrls')
 const idToShortUrl = require('./generateShortUrl.js')
+const isUrl = require('nice-is-url')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -34,6 +35,12 @@ app.get('/', (req, res) => {
 const hostUrl = `http://localhost:${port}/`
 app.post('/', (req, res) => {
   const contentUrl = req.body.originalUrl
+  const invalidUrl = isUrl(contentUrl) === false;
+  if (invalidUrl) {
+    console.log('Not a valid url!')
+    res.render('index', {contentUrl, invalidUrl})
+    return res.status(404)
+  }
   let newUrl
   shortenUrl
     .find()
