@@ -10,8 +10,15 @@
   <div class="container col-sm-6 my-4">
     <form class="d-flex">
       <div class="col-sm-2 d-flex align-items-center"><h5>Short url:</h5></div>
-      <input class="form-control me-2" type="url" readonly id="url-output" aria-label="shortUrl-output" value={{newUrl}}> <button class="btn btn-danger" onclick="copy(event, this)">Copy</button>
+      <input class="form-control me-2" type="url" readonly id="url-output" aria-label="shortUrl-output" value={{newUrl}}> <button class="btn btn-secondary" onclick="copy(event, this)">Copy</button>
     </form>
+    {{#if newUrl}}
+    <div class="col-sm-5 mt-3 text-center" style="width: auto; background-color: rgb(101, 110, 105); border-radius: 10px; border: 1px solid #ffffff"> 
+            
+              <span class="mr-2" style="font-size: 1.2rem; color: #ffffff">Successfully shortened the url!</span>
+            
+            </div>
+            {{/if}}
   </div>
 </div>
 {{!-- button --}}

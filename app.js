@@ -1,7 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
-const methodOverride = require('method-override')
 const shortenUrl = require('./models/shortenUrls')
 const idToShortUrl = require('./generateShortUrl.js')
 if (process.env.NODE_ENV !== 'production') {
@@ -26,7 +25,6 @@ db.once('open', () => {
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
-app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   res.render('index')
