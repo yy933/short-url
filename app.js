@@ -1,9 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
-const shortenUrl = require('./models/shortenUrls')
-const idToShortUrl = require('./generateShortUrl.js')
-const isUrl = require('nice-is-url')
+
+const routes = require('./routes')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -26,67 +25,7 @@ db.once('open', () => {
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
-
-app.get('/', (req, res) => {
-  res.render('index')
-})
-
-// convert to short url and save data
-const hostUrl = `http://localhost:${port}/`
-app.post('/', (req, res) => {
-  const contentUrl = req.body.originalUrl
-  const invalidUrl = isUrl(contentUrl) === false;
-  if (invalidUrl) {
-    console.log('Not a valid url!')
-    res.render('index', {contentUrl, invalidUrl})
-    return res.status(404)
-  }
-  let newUrl
-  shortenUrl
-    .find()
-    .lean()
-    .then((data) => {
-      // check if the input url already exists in database
-      newUrl = data.find((item) => item.originalUrl === contentUrl)
-      if (newUrl) {
-        newUrl = hostUrl + newUrl.shortUrl
-        return res.render('show', { newUrl, contentUrl })
-      }
-      // if short string already existed, regenerate a random short string
-      let shortString = idToShortUrl()
-      if (data.some((item) => item.shortUrl === shortString)) {
-        shortString = idToShortUrl()
-      }
-      newUrl = hostUrl + shortString
-      // create new data
-      shortenUrl.create({
-        originalUrl: contentUrl,
-        shortUrl: shortString
-      })
-    })
-    .then(() => res.render('show', { newUrl, contentUrl }))
-    .catch((error) => {
-      console.log(error)
-      res.render('error', { error_message: error.message })
-    })
-})
-
-// make short url work in the browser
-app.get('/:shortString', (req, res) => {
-  const shortString = req.params.shortString
-  shortenUrl
-    .findOne({ shortUrl: shortString })
-    .lean()
-    .then((data) => {
-      if (data) {
-        res.redirect(data.originalUrl)
-      }
-    })
-    .catch((error) => {
-      console.log(error)
-      res.render('error', { error_message: error.message })
-    })
-})
+app.use(routes)
 
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
