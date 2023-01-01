@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
 }
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.set('strictQuery', false)
+mongoose.connect(process.env.MONGODB_URI)
 
 const db = mongoose.connection
 // 連線異常
