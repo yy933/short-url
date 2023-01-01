@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
       newUrl = data.find((item) => item.originalUrl === contentUrl)
       if (newUrl) {
         newUrl = hostUrl + newUrl.shortUrl
-        return res.render('show', { newUrl, contentUrl })
+        return 
       }
       // if short string already existed, regenerate a random short string
       let shortString = idToShortUrl()
