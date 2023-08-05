@@ -2,47 +2,49 @@ const express = require('express')
 const router = express.Router()
 const shortenUrl = require('../../models/shortenUrls')
 const idToShortUrl = require('../../generateShortUrl')
-const isUrl = require('nice-is-url')
-const port = process.env.PORT || 3000
+const validUrl = require('is-url-http')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 router.get('/', (req, res) => {
   return res.render('index')
 })
 
 // convert to short url and save data
-const hostUrl = `http://localhost:${port}/`
+const baseUrl = process.env.BASE_URL
 router.post('/', (req, res) => {
-  const contentUrl = req.body.originalUrl
-  const invalidUrl = isUrl(contentUrl) === false
+  const { originalUrl } = req.body
+  const isValidUrl = validUrl(originalUrl)
   let newUrl
-  if (invalidUrl) {
+  if (!isValidUrl) {
     console.log('Not a valid url!')
-    res.render('index', { contentUrl, invalidUrl })
+    res.render('index', { originalUrl, invalidUrl: true })
     return res.status(404)
   }
   shortenUrl
     .find()
     .lean()
-    .then((data) => {
+    .then(data => {
       // check if the input url already exists in database
-      newUrl = data.find((item) => item.originalUrl === contentUrl)
+      newUrl = data.find(item => item.originalUrl === originalUrl)
       if (newUrl) {
-        newUrl = hostUrl + newUrl.shortUrl
+        newUrl = baseUrl + newUrl.shortUrl
         return
       }
       // if short string already existed, regenerate a random short string
       let shortString = idToShortUrl()
-      if (data.some((item) => item.shortUrl === shortString)) {
+      if (data.some(item => item.shortUrl === shortString)) {
         shortString = idToShortUrl()
       }
-      newUrl = hostUrl + shortString
+      newUrl = baseUrl + shortString
       // create new data
       shortenUrl.create({
-        originalUrl: contentUrl,
+        originalUrl,
         shortUrl: shortString
       })
     })
-    .then(() => res.render('show', { newUrl, contentUrl }))
+    .then(() => res.render('show', { newUrl, originalUrl }))
     .catch((error) => {
       console.log(error)
       return res.render('error', { error_message: error.message })
@@ -50,12 +52,12 @@ router.post('/', (req, res) => {
 })
 
 // make short url work in the browser
-router.get('/:shortString', (req, res) => {
-  const shortString = req.params.shortString
+router.get('/:shortUrl', (req, res) => {
+  const { shortUrl } = req.params
   shortenUrl
-    .findOne({ shortUrl: shortString })
+    .findOne({ shortUrl })
     .lean()
-    .then((data) => {
+    .then(data => {
       if (data) {
         return res.redirect(data.originalUrl)
       }
