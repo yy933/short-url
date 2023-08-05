@@ -38,7 +38,11 @@ npm install express-handlebars@6.0.6
 ```
 npm install mongoose@6.8.1
 ```
-4. 匯入種子資料
+4. 建立.env 檔案：
+  * `MONGODB_URI`：建立MongoDB資料庫，取得資料庫連線字串
+  * `BASE_URL`：本專案的root URL，預設為`http://localhost:3000/`
+  
+5. 匯入種子資料
 ```
 npm run seed
 ```
@@ -58,5 +62,5 @@ npm run start
 4. [Bootstrap](https://getbootstrap.com/)(v5.1.1) - 前端開發工具
 5. [MongoDB](https://www.mongodb.com/) - 非關聯式資料庫（NoSQL）
 6. [Mongoose](https://mongoosejs.com/)(v6.8.1) - MongoDB ODM
-7. [nice-is-url](https://github.com/vigour-io/nice-is-url)(v1.0.2) - 檢查字串是否為有效網址
+7. [is-url-http](https://github.com/Kikobeats/is-url-http)(v2.3.5) - 檢查字串是否為有效網址
 8. [Visual Studio Code](https://code.visualstudio.com/) - 程式碼編輯器
