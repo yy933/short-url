@@ -1,26 +1,29 @@
 <div class="container">
   {{!-- main contents --}}
 <div class="d-flex flex-column">
-  <div class="container col-sm-6 my-4">
+  <div class="container col-sm-10 col-md-8 col-lg-7 my-4">
+    <div class="col-sm-8 d-flex align-items-center"><h5>Original url:</h5></div>
     <form class="d-flex">
-      <div class="col-sm-2 d-flex align-items-center"><h5>Original url:</h5></div>
-      <input class="form-control me-2" type="url" readonly placeholder="http://..." id="url-input" aria-label="shortUrl-input" value={{originalUrl}} >
+      <input class="form-control me-2" type="url" readonly placeholder="https://..." id="url-input" aria-label="shortUrl-input" value={{originalUrl}} >
+      </div>
     </form>
   </div>
-  <div class="container col-sm-6 my-4">
+  <div class="container col-sm-10 col-md-8 col-lg-7 my-4">
+    <div class="col-sm-8 d-flex align-items-center"><h5>Short url:</h5></div>
     <form class="d-flex">
-      <div class="col-sm-2 d-flex align-items-center"><h5>Short url:</h5></div>
-      <input class="form-control me-2" type="url" readonly id="url-output" aria-label="shortUrl-output" value={{newUrl}}> <button class="btn btn-secondary" onclick="copy(event, this)">Copy</button>
+        <input class="form-control me-2" type="url" readonly id="url-output" aria-label="shortUrl-output" value={{newUrl}}>
+        <button class="btn btn-secondary" onclick="copy(event, this)">Copy</button>
+      </div>
     </form>
     {{#if newUrl}}
-    <div class="col-sm-5 mt-3 text-center" style="width: auto; background-color: rgb(101, 110, 105); border-radius: 10px; border: 1px solid #ffffff"> 
-            
-              <span class="mr-2" style="font-size: 1.2rem; color: #ffffff">Successfully shortened the url!</span>
-            
-            </div>
-            {{/if}}
+    <div class="row d-flex justify-content-center">
+      <div class="col-11 col-sm-10 col-md-6 mt-3 text-center" style="background-color: rgb(101, 110, 105); border-radius: 10px; border: 1px solid #ffffff"> 
+        <div class="mr-2" style="font-size: 1.2rem; color: #ffffff">Successfully shortened the url!</div>      
+      </div>
+    </div>
+    {{/if}}
   </div>
 </div>
 {{!-- button --}}
-<div class="d-flex justify-content-center"><a href="/"><button class="btn btn-primary" id="go-back">Back to Home</button></a></div>
+<div class="d-flex justify-content-center mt-5"><a href="/"><button class="btn btn-primary" id="go-back">Back to Home</button></a></div>
 </div>
