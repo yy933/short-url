@@ -38,10 +38,11 @@ const urlController = {
       .then(() => res.render('show', { newUrl, originalUrl }))
       .catch((error) => {
         console.log(error)
+        next(error)
         return res.render('error', { error_message: error.message })
       })
   },
-  getOrigin: (req, res) => {
+  getOrigin: (req, res, next) => {
     const { shortUrl } = req.params
     shortenUrl
       .findOne({ shortUrl })
@@ -57,6 +58,7 @@ const urlController = {
       })
       .catch(error => {
         console.log(error)
+        next(error)
         return res.render('error', { error_message: error.message })
       })
   }
