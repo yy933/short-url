@@ -60,9 +60,13 @@ router.get('/:shortUrl', (req, res) => {
     .then(data => {
       if (data) {
         return res.redirect(data.originalUrl)
+      } else {
+        return res.render('error', {
+          error_message: `Url ${process.env.BASE_URL}${shortUrl} does not exist!`
+        })
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
       return res.render('error', { error_message: error.message })
     })
