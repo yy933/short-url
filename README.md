@@ -30,15 +30,6 @@ cd shorten-url
 ```
 npm install
 ```
-```
-npm install express@4.18.2
-```
-```
-npm install express-handlebars@6.0.6
-```
-```
-npm install mongoose@6.8.1
-```
 4. 建立.env 檔案：
   * `MONGODB_URI`：建立MongoDB資料庫，取得資料庫連線字串
   * `BASE_URL`：本專案的root URL，預設為`http://localhost:3000/`
