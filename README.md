@@ -46,6 +46,13 @@ npm run start
 ```
 
 6. 當終端機顯示 `Express is running on http://localhost:3000` ，代表已成功啟動伺服器並執行app.js檔案，至瀏覽器輸入 http://localhost:3000 即可使用本網站
+* 測試資料：匯入種子資料後，可用以下網址測試
+
+| 原始網址 Original URL  | 短網址 Short URL  |
+| ------------- |:-------------: |
+| https://stackoverflow.com/ | http://localhost:3000/5Ghj7 | 
+| https://www.w3schools.com/ | http://localhost:3000/rY9i4 | 
+  
 
 ## 執行環境與工具 Environment and Tools
 1. [Node.js](https://nodejs.org/en/)(v14.16.0) - JavaScript執行環境
