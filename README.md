@@ -19,11 +19,11 @@
 1. 進入[Node.js](https://nodejs.org/en/)官網依指示安裝Node.js
 2. 打開終端機，複製此專案至本機
 ```
-git clone https://github.com/yy933/shorten-url.git
+git clone https://github.com/yy933/short-url.git
 ```
 2. 進入此專案資料夾
 ```
-cd shorten-url
+cd short-url
 ```
 3. 安裝npm套件 
 
